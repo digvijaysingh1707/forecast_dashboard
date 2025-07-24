@@ -4,7 +4,7 @@ import pandas as pd
 st.set_page_config(page_title="Steel Commodities Dashboard", layout="wide")
 
 # Header
-st.image("assets/images/banner.jpeg", use_column_width=True)
+st.image("assets/images/banner.jpeg", use_container_width=True)
 st.title("ML Forecast Report for Steel Commodities")
 
 # Executive Forecast Table
