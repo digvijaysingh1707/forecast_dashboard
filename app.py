@@ -8,7 +8,7 @@ st.image("assets/images/banner.jpeg", use_column_width=True)
 st.title("ML Forecast Report for Steel Commodities")
 
 # Executive Forecast Table
-summary_df = pd.read_csv("data/steel_forecast_summary.csv")
+summary_df = pd.read_csv("data/summary.csv")
 st.subheader("Executive Summary: Monthly Price Forecast")
 st.dataframe(summary_df)
 
