@@ -1,16 +1,16 @@
 import streamlit as st
 import pandas as pd
 
-# Load CSV with HRC predictions
+# Load HRC prediction data
 df = pd.read_csv("data/hrc_pred_results_3M_till_Sep.csv")
 
-# Get the latest non-NaN horizon_0 predicted price and corresponding MAPE
+# Get latest available prediction and MAPE
 latest_row = df.dropna(subset=["horizon_0", "horizon_0_mape"]).iloc[-1]
 month_str = pd.to_datetime(latest_row["ds"]).strftime("%b-%Y")
 base_pred = latest_row["horizon_0"]
 mape = latest_row["horizon_0_mape"]
 
-# Create a 3:1 column layout (main=graph, side=metric)
+# Layout: 3:1 columns
 main_col, side_col = st.columns([3, 1])
 
 with main_col:
@@ -19,6 +19,8 @@ with main_col:
 
 with side_col:
     st.markdown(f"##### {month_str}")
+    st.metric(label="Predicted Price", value=f"₹{base_pred:,.0f}")
+
     adj_pct = st.slider(
         "Adjust by MAPE (%)",
         min_value=-float(mape),
@@ -28,5 +30,5 @@ with side_col:
         help=f"Adjust +/- up to the model's MAPE ({mape:.2f}%)",
     )
     adj_pred = base_pred * (1 + adj_pct / 100)
-    st.metric(label="Predicted Price", value=f"₹{adj_pred:,.0f}")
-    st.caption(f"Base: ₹{base_pred:,.0f} <br>MAPE: {mape:.2f}%", unsafe_allow_html=True)
+    st.markdown(f"**Adjusted Predicted Price:** ₹{adj_pred:,.0f}")
+    st.caption(f"Base: ₹{base_pred:,.0f} &nbsp;&nbsp;|&nbsp; MAPE: {mape:.2f}%")
